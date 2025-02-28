@@ -1,6 +1,6 @@
 RUN python3 -m pip install --no-cache-dir watchdog xmltodict pandas bravado_core swagger_spec_validator jsonschema==3.2.0 pdf2image xmltodict cryptography==35.0.0 
 
-RUN apt-get install python3-pykcs11
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pykcs11 neovim
 
 ENV SOURCES /home/odoo/src
 ENV RESOURCES /home/odoo/.resources
@@ -16,6 +16,7 @@ RUN mkdir -p $RESOURCES && \
 
 # Usefull aliases
 RUN echo "alias odoo-shell='odoo shell --shell-interface ipython --no-http --limit-memory-hard=0 --limit-memory-soft=0'" >> /home/odoo/.bashrc
+RUN echo "alias v='nvim .'" >> /home/odoo/.bashrc
 
 # Expose Odoo services
 EXPOSE 8069 8071 8072
