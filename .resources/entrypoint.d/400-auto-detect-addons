@@ -40,43 +40,43 @@ if CUSTOM_ENABLED and os.path.isdir(CUSTOM):
         if os.path.isdir(os.path.join(CUSTOM, d)) and d not in IGNORE_REPO
     ]
 
-    # requirements = []
-    # for d in sorted(os.listdir(CUSTOM)):
-    #     module_path = os.path.join(CUSTOM, d)
-    #     requirement_file = os.path.join(module_path, "requirements.txt")
-    #     if not os.path.exists(requirement_file):
-    #         continue
+    requirements = []
+    for d in sorted(os.listdir(CUSTOM)):
+        module_path = os.path.join(CUSTOM, d)
+        requirement_file = os.path.join(module_path, "requirements.txt")
+        if not os.path.exists(requirement_file):
+            continue
 
-    #     with open(requirement_file, "r") as file:
-    #         for line in file:
-    #             if line.startswith("#"):
-    #                 continue
+        with open(requirement_file, "r") as file:
+            for line in file:
+                if line.startswith("#"):
+                    continue
 
-    #             line_parts = line.strip().split("==")
-    #             if len(line_parts) > 1:
-    #                 if line_parts[0] in requirements:
-    #                     continue
-    #                 requirements.append(line_parts[0])
-    #                 continue
-    #             requirements.append(line.strip())
+                line_parts = line.strip().split("==")
+                if len(line_parts) > 1:
+                    if line_parts[0] in requirements:
+                        continue
+                    requirements.append(line_parts[0])
+                    continue
+                requirements.append(line.strip())
 
-    # new_requirements = []
-    # requirements_path = os.path.join(RESOURCES, "requirements.txt")
-    # with open(requirements_path, "w+") as file:
-    #     for line in requirements:
-    #         file.write(line + "\n")
+    new_requirements = []
+    requirements_path = os.path.join(RESOURCES, "requirements.txt")
+    with open(requirements_path, "w+") as file:
+        for line in requirements:
+            file.write(line + "\n")
 
-    # if os.path.exists(requirements_path):
-    #     subprocess.check_call(
-    #         [
-    #             "pip",
-    #             "install",
-    #             "--user",
-    #             "--no-warn-script-location",
-    #             "-r",
-    #             requirements_path,
-    #         ]
-    #     )
+    if os.path.exists(requirements_path):
+        subprocess.check_call(
+            [
+                "pip",
+                "install",
+                "--user",
+                "--no-warn-script-location",
+                "-r",
+                requirements_path,
+            ]
+        )
 
 # Repo addons are preprended, in case we want to overwrite odoo modules
 addons = addons + repo_addons
