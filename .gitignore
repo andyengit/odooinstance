@@ -1,0 +1,5 @@
+.env
+src/*
+src/enterprise
+.resources/Dockerfile
+.resources/requirements.txt

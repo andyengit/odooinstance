@@ -1,0 +1,27 @@
+RUN python3 -m pip install --no-cache-dir watchdog xmltodict pandas bravado_core swagger_spec_validator jsonschema==3.2.0 pdf2image xmltodict cryptography==35.0.0 
+
+RUN apt-get install python3-pykcs11
+
+ENV SOURCES /home/odoo/src
+ENV RESOURCES /home/odoo/.resources
+ENV CONFIG_DIR /home/odoo/.config
+ENV DATA_DIR /home/odoo/data
+ENV ODOO_RC=$CONFIG_DIR/odoo.conf
+
+RUN mkdir -p $RESOURCES && \
+    mkdir -p $CONFIG_DIR && \
+    mkdir -p $DATA_DIR && \
+    chown -R odoo.odoo /home/odoo && \
+    sync
+
+# Usefull aliases
+RUN echo "alias odoo-shell='odoo shell --shell-interface ipython --no-http --limit-memory-hard=0 --limit-memory-soft=0'" >> /home/odoo/.bashrc
+
+# Expose Odoo services
+EXPOSE 8069 8071 8072
+
+# Entrypoint
+WORKDIR "/home/odoo"
+USER odoo
+ENTRYPOINT ["/home/odoo/.resources/entrypoint.sh"]
+CMD ["odoo"]
